@@ -1,24 +1,26 @@
 REQ_FILE=requirements.txt
+VERSION=3.9.10
+
+
+.PHONY: setup-pyenv
+setup-pyenv:
+	git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+	./.pyenv/bin/pyenv install $(VERSION)
 
 .PHONY: install
 install:
-	sudo apt install python3.9 python3.9-dev
-	python3.9 -m venv venv
+	~/.pyenv/versions/$(VERSION)/bin/python$(version) -m venv venv
 	./venv/bin/pip install -r $(REQ_FILE)
-
-.PHONY: req
-req:
-	pip install -r $(REQ_FILE)
 
 .PHONY: black
 black:
-	black src
-	black tests
+	./venv/bin/black src
+	./venv/bin/black tests
 
 .PHONY: isort
 isort:
-	isort src
-	isort tests
+	./venv/bin/isort src
+	./venv/bin/isort tests
 
 .PHONY: run
 run:
@@ -26,16 +28,16 @@ run:
 
 .PHONY: test
 test:
-	pytest tests
+	./venv/bin/pytest tests
 
 .PHONY: docker-build
 docker-build:
-	docker build . -t dayrize:latest
+	docker build . -t dayrize-api:latest
 
 .PHONY: docker-run
 docker-run:
-	docker run -d -p 8000:8000 --name dayrize dayrize:latest python main.py
+	docker run -d -p 8000:8000 --name dayrize-api dayrize-api:latest python main.py
 
 .PHONY: docker-test
 docker-test:
-	docker run -it --name dayrize dayrize:latest pytest
+	docker run -it --name dayrize-api dayrize-api:latest pytest
