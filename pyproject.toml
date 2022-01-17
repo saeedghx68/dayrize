@@ -1,0 +1,29 @@
+[tool.black]
+line-length = 120
+target_version = ["py39"]
+
+[tool.isort]
+combine_as_imports = true
+default_section = "THIRDPARTY"
+from_first = false
+include_trailing_comma = true
+length_sort = false
+multi_line_output = 3
+order_by_type = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+use_parentheses = true
+line_length = 120
+force_grid_wrap = 0
+
+[tool.coverage.run]
+source = ["src"]
+relative_files = true
+branch = true
+omit = []
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
